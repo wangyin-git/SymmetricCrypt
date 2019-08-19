@@ -10,6 +10,12 @@
 /test/version_tmp/
 /tmp/
 
+.idea
+tmp/*
+.rbx
+Gemfile.lock
+.bash_history
+
 # Used by dotenv library to load environment variables.
 # .env
 
