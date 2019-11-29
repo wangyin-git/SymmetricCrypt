@@ -16,6 +16,11 @@ class SymmetricCrypt
                        iv:        Base64.decode64(h["iv"]))
   end
 
+  def self.random_key_iv(algorithm: 'AES-128-CBC')
+    cipher = OpenSSL::Cipher.new(algorithm)
+    [cipher.random_key, cipher.random_iv]
+  end
+
   def initialize(algorithm: 'AES-128-CBC', key: nil, iv: nil)
     self.algorithm      = algorithm
     self.encrypt_cipher = OpenSSL::Cipher.new(algorithm)
@@ -53,7 +58,7 @@ class SymmetricCrypt
     end
     if finish
       encrypt_chunk << encrypt_cipher.final
-      res = -encrypt_chunk
+      res = encrypt_chunk[0..-1]
       encrypt_reset
       res
     else
@@ -67,7 +72,7 @@ class SymmetricCrypt
     end
     if finish
       decrypt_chunk << decrypt_cipher.final
-      res = -decrypt_chunk
+      res = decrypt_chunk[0..-1]
       decrypt_reset
       res
     else
