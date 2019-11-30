@@ -21,6 +21,16 @@ class SymmetricCrypt
     [cipher.random_key, cipher.random_iv]
   end
 
+  def self.encrypt_data(data, key:, iv:)
+    crypt = SymmetricCrypt.new(key: key, iv: iv)
+    crypt.update_encrypt_data(data, finish: true)
+  end
+
+  def self.decrypt_data(data, key:, iv:)
+    crypt = SymmetricCrypt.new(key: key, iv: iv)
+    crypt.update_decrypt_data(data, finish: true)
+  end
+
   def initialize(algorithm: 'AES-128-CBC', key: nil, iv: nil)
     self.algorithm      = algorithm
     self.encrypt_cipher = OpenSSL::Cipher.new(algorithm)
